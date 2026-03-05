@@ -29,7 +29,12 @@ class AuthService
             return null;
         }
 
+        /** @var \App\Models\User $user */
         $user = Auth::user();
+
+        if (!$user->hasVerifiedEmail()) {
+            return 'not_verified';
+        }
 
         /** @var \App\Models\User $user */
         $token = $user->createToken('auth_token')->plainTextToken;

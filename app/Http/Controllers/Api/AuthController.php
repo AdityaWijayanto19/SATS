@@ -35,6 +35,13 @@ class AuthController extends Controller
             ], 401);
         }
 
+        if ($result === 'not_verified') {
+            return response()->json([
+                'message' => 'Email not verified'
+            ], 403);
+
+        }
+
         return response()->json([
             'message' => 'Login successful',
             'token' => $result[1],

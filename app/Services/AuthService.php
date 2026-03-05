@@ -39,6 +39,9 @@ class AuthService
         /** @var \App\Models\User $user */
         $token = $user->createToken('auth_token')->plainTextToken;
 
-        return [$user, $token];
+        return [
+            'user' => $user,
+            'token' => $token,
+        ];
     }
 }

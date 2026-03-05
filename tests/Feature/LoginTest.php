@@ -29,7 +29,7 @@ class LoginTest extends TestCase
             'password' => 'password123',
         ]);
 
-        $response->assertStatus(200)->assertJsonStructure(['message']);
+        $response->assertStatus(200)->assertJsonStructure(['message', 'token', 'user']);
     }
 
     public function test_login_with_not_verified(): void

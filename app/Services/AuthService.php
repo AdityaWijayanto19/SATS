@@ -26,9 +26,7 @@ class AuthService
     public function login(array $credentials)
     {
         if (!Auth::attempt($credentials)) {
-            throw ValidationException::withMessages([
-                'email' => ['Invalid credentials.'],
-            ]);
+            return null;
         }
 
         $user = Auth::user();

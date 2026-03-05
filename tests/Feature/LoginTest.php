@@ -17,12 +17,12 @@ class LoginTest extends TestCase
     public function test_login_with_correct_credentials(): void
     {
         $user = User::factory()->create([
-            'email' => 'aditya@test.com',
+            'email' => 'aditya123@test.com',
             'password' => Hash::make('password123'),
         ]);
 
         $response = $this->postJson('/api/login', [
-            'email' => 'aditya@test.com',
+            'email' => 'aditya123@test.com',
             'password' => 'password123',
         ]);
 
@@ -30,6 +30,30 @@ class LoginTest extends TestCase
             'message',
             'token',
             'user'
+        ]);
+    }
+
+    public function test_login_with_empty_fields()
+    {
+        $response = $this->postJson('/api/login', []);
+
+        $response->assertStatus(422);
+    }
+
+    public function test_login_with_incorrect_credentials()
+    {
+        $user = User::factory()->create([
+            'email' => 'incorrect@test.com',
+            'password' => Hash::make('wrongpassword'),
+        ]);
+
+        $response = $this->postJson('/api/login', [
+            'email' => 'iincorrect@test.com',
+            'password' => 'wrongpassword',
+        ]);
+
+        $response->assertStatus(401)->assertJsonStructure([
+            'message'
         ]);
     }
 }

@@ -23,13 +23,18 @@ class ProfileUpdateTest extends TestCase
         /**
          * @var \App\Models\User $user
          */
-        $response = $this->actingAs($user, 'sanctum')->postJson('/api/updateProfile', [
+        $response = $this->actingAs($user, 'sanctum')->patchJson('/api/updateProfile', [
             'name' => 'Aditya Updated',
             'password' => 'newpassword123',
             'password_confirmation' => 'newpassword123',
         ]);
 
         $response->assertStatus(200)->assertJsonStructure(['message', 'user']);
+
+        $this->assertDatabaseHas('users', [
+            'email' => 'aditya@example.com',
+            'name'  => 'Aditya Updated',
+        ]);
     }
 
     public function test_user_update_with_empty_fields()
@@ -42,9 +47,9 @@ class ProfileUpdateTest extends TestCase
         ]);
 
         /** @var \App\Models\User $user */
-        $response = $this->actingAs($user, 'sanctum')->postJson('/api/updateProfile', []);
+        $response = $this->actingAs($user, 'sanctum')->patchJson('/api/updateProfile', []);
 
-        $response->assertStatus(401)->assertJsonStructure(['message', 'user']);
+        $response->assertStatus(200)->assertJsonStructure(['message', 'user']);
     }
 
     public function test_user_with_password_confirm_missmatch()
@@ -57,11 +62,11 @@ class ProfileUpdateTest extends TestCase
         ]);
 
         /** @var \App\Models\User $user */
-        $response = $this->actingAs($user, 'sanctum')->postJson('/Api/UpdateProfile', [
+        $response = $this->actingAs($user, 'sanctum')->patchJson('/api/updateProfile', [
             'name' => 'Aditya Updated',
             'password' => 'newpassword123',
         ]);
 
-        $response->assertStatus(404)->assertJsonStructure(['message']);
+        $response->assertStatus(422)->assertJsonStructure(['message']);
     }
 }

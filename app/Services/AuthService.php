@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Auth\Events\Verified;
 use Illuminate\Validation\ValidationException;
 
 class AuthService
@@ -45,5 +46,42 @@ class AuthService
         ];
     }
 
-    
+    public function verify($userId, $hash)
+    {
+        $user = User::findOrFail($userId);
+
+        if (!hash_equals((string) $hash, sha1($user->getEmailForVerification()))) {
+            return false;
+        }
+
+        if ($user->hasVerifiedEmail()) {
+            return true;
+        }
+
+        if ($user->markEmailAsVerified()) {
+            event(new Verified($user));
+        }
+
+        return true;
+    }
+
+    public function resendVerification($email)
+    {
+        $user = User::where('email', $email)->first();
+
+        // Jika user tidak ditemukan
+        if (!$user) {
+            return 'not_found';
+        }
+
+        // Jika email sudah diverifikasi, tidak perlu kirim lagi
+        if ($user->hasVerifiedEmail()) {
+            return 'already_verified';
+        }
+
+        // Kirim notifikasi email verifikasi
+        $user->sendEmailVerificationNotification();
+
+        return 'sent';
+    }
 }

@@ -44,4 +44,6 @@ class AuthService
             'token' => $token,
         ];
     }
+
+    
 }

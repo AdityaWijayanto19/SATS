@@ -13,6 +13,7 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
     return response()->json(['message' => 'Email verified']);
 })->middleware(['signed'])->name('verification.verify');
 
+Route::put('/updateProfile', [App\Http\Controllers\Api\ProfileController::class, 'updateProfile']);
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });

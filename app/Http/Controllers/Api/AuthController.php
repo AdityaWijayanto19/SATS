@@ -37,13 +37,22 @@ class AuthController extends Controller
             return response()->json([
                 'message' => 'Email not verified'
             ], 403);
-
         }
 
         return response()->json([
             'message' => 'Login successful',
             'token' => $result['token'],
             'user' => $result['user']
+        ], 200);
+    }
+
+    public function logout(AuthService $authService)
+    {
+
+        $authService->logout(request());
+
+        return response()->json([
+            'message' => 'Logout successful'
         ], 200);
     }
 }

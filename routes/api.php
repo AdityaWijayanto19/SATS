@@ -16,8 +16,12 @@ Route::post('/email/resend', [VerificationController::class, 'resend'])
     ->middleware(['throttle:3,1']) // Maksimal 3 kali resend per menit
     ->name('verification.resend');
 
-Route::patch('/updateProfile', [App\Http\Controllers\Api\ProfileController::class, 'updateProfile']);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::patch('/updateProfile', [App\Http\Controllers\Api\ProfileController::class, 'updateProfile']);
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+
+    Route::post('/logout', [App\Http\Controllers\Api\AuthController::class, 'logout']);
 });

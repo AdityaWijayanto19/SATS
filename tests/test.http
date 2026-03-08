@@ -1,0 +1,49 @@
+@URL = http://127.0.0.1:8000/api
+@token = 4|8kdbnlwFfxwBce0LkM3PmKEdnquyHjSl6tX3omHob2582a26
+
+### Register User
+POST {{URL}}/register
+Content-Type: application/json
+Accept: : application/json
+
+{
+    "name" : "Aditya Wijayanto",
+    "email" : "aditya@example.com",
+    "password" : "password123",
+    "password_confirmation" : "password123"
+}
+
+### Verify Email
+GET {{URL}}/email/verify/1/761d6b19208dc55ce8caf89e3341fb30ea529d09?expires=1773005930&signature=6836492a55280ccbf029442fecb3909dfc21fdadecc3f828a3f824accb607ccd
+Accept: application/json
+
+### Login User
+POST {{URL}}/login
+Content-Type: application/json
+Accept: application/json
+
+{
+    "email" : "aditya@example.com",
+    "password" : "password123"
+}
+
+### Get User Profile
+GET {{URL}}/user
+Accept: application/json
+Authorization: Bearer {{token}}
+
+### Update Profile
+PATCH {{URL}}/updateProfile
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{token}}
+
+ {
+    "email" : "aditya@example.com",
+    "name" : "Aditya"
+ }
+
+### Logout User
+POST {{URL}}/logout
+Accept: application/json
+Authorization: Bearer {{token}}

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Http\Request;
 
 class AuthService
 {
@@ -83,5 +84,12 @@ class AuthService
         $user->sendEmailVerificationNotification();
 
         return 'sent';
+    }
+
+    public function logout(Request $request) {
+
+        $request->user()->currentAccessToken()->delete();
+
+        return true;
     }
 }

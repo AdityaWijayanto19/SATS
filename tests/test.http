@@ -1,5 +1,5 @@
 @URL = http://127.0.0.1:8000/api
-@token = 4|8kdbnlwFfxwBce0LkM3PmKEdnquyHjSl6tX3omHob2582a26
+@token = 5|BlB3rzc62fJNM6SzrrXy7j3oHTthmxNVLMNZuNja6cc89bf9
 
 ### Register User
 POST {{URL}}/register
@@ -39,11 +39,22 @@ Accept: application/json
 Authorization: Bearer {{token}}
 
  {
-    "email" : "aditya@example.com",
-    "name" : "Aditya"
+    "name" : "Aditya Wijayanto"
  }
 
 ### Logout User
 POST {{URL}}/logout
 Accept: application/json
 Authorization: Bearer {{token}}
+
+### Change Password
+PATCH {{URL}}/changePassword
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "old_password" : "password123",
+    "new_password" : "123123123",
+    "new_password_confirmation" : "123123123"
+}

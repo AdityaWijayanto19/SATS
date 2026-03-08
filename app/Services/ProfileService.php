@@ -21,7 +21,7 @@ class ProfileService
 
         public function changePassword(User $user, array $data){
 
-            if (Hash::check($data['old_password'], $user->password)) {
+            if (!Hash::check($data['old_password'], $user->password)) {
                 throw new Exception('Old Password uncorrect');
             }
 

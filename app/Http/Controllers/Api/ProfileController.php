@@ -25,7 +25,7 @@ class ProfileController extends Controller
         try {
             $profileService->changePassword($request->user(), $request->validated());
             return response()->json([
-                'message' => 'Password successfully changed'
+                'message' => 'Password successfully changed',
             ], 200);
         } catch (Exception $e) {
             return response()->json([
